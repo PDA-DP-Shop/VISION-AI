@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="analysis-details" style="min-height: 80vh;">
+    <div class="section-header aos-init" data-aos="fade-down">
+        <h2>Voice Call Forensic Lab</h2>
+        <p>Expert-level identification of AI-generated voices on the other side of the call.</p>
+    </div>
+
+    <div class="lab-wrapper">
+        <!-- Input Panel -->
+        <div class="panel glass-panel aos-init" data-aos="fade-right">
+            <h3>Analyze Call Audio</h3>
+            <span class="badge" style="background:#dcfce7; color:#166534; margin-bottom: 20px;">Live Call Vetting Mode
+                Active</span>
+
+            <form onsubmit="event.preventDefault();">
+                <div class="drop-zone" id="dropZone" onclick="document.getElementById('audioFileInput').click()">
+                    <input type="file" id="audioFileInput" name="file" accept="audio/*" class="hidden">
+                    <div id="previewContainer" class="hidden"
+                        style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <span style="font-size: 3rem;">🎵</span>
+                        <p id="audioName" style="margin-top:10px; font-weight: 600;"></p>
+                        <audio id="audioPreview" controls style="margin-top:10px; width: 80%;"></audio>
+                    </div>
+                    <div id="uploadText">
+                        <span style="font-size: 2.5rem;">📞</span>
+                        <p id="fileName">Select Call Recording / Audio</p>
+                    </div>
+                </div>
+
+                <button type="button" id="audBtn" class="btn-main" style="width:100%; margin-top:20px; border:none;"
+                    onclick="uploadAndScanAudio()">VET CALLER IDENTITY</button>
+
+                <div id="loader" class="spinner hidden" style="margin-top:20px;"></div>
+
+                <div class="method-grid" style="grid-template-columns: 1fr; gap: 10px; margin-top: 20px;">
+                    <p style="font-size: 0.8rem; color: #64748b; text-align: center;">Scanning for real-time cloning
+                        artifacts,
+                        transmission jitter, and synthetic prosody.</p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="panel glass-panel aos-init" data-aos="fade-left" id="resultPanel" style="opacity: 0.9;">
+            <h3>Call Integrity Report</h3>
+
+            <div id="placeholderText" style="text-align: center; padding: 40px; color: var(--text-light);">
+                <p>Upload a call recording to identify the speaker...</p>
+            </div>
+
+            <div id="resultContent" class="hidden">
+                <div class="prediction-result">
+                    <span id="predictionBadge" class="prediction-badge">-</span>
+                    <p id="predictionText" style="margin-top: 10px; font-weight: 600;"></p>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Call Authenticity Confidence</span>
+                        <span id="confNum">0%</span>
+                    </div>
+                    <div class="progress-bg">
+                        <div id="barFill" class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <div id="forensicReport" style="margin-top: 25px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+                    <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 15px;">Acoustic Checklist</h4>
+                    <div id="checklistGrid" style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+                        <!-- Items injected via JS -->
+                    </div>
+
+                    <div id="awarenessBox"
+                        style="margin-top:20px; padding: 15px; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px;">
+                        <span style="font-weight: 700; color: #92400e; display: block; margin-bottom: 5px;">🎓 Voice
+                            Clone Warning:</span>
+                        <p id="awarenessText" style="font-size: 0.85rem; color: #78350f; line-height: 1.5;"></p>
+                    </div>
+
+                    <!-- Transcript & Translation Layer -->
+                    <div id="transcriptBox" class="hidden"
+                        style="margin-top:20px; padding: 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <span style="font-weight: 700; color: #334155; display: block; margin-bottom: 5px;">📜
+                            Transcript & Translation:</span>
+                        <p id="transcriptText"
+                            style="font-size: 0.85rem; color: #475569; line-height: 1.5; font-style: italic;"></p>
+                        <p id="translationText"
+                            style="font-size: 0.85rem; color: #0f172a; line-height: 1.5; margin-top: 10px; font-weight: 500;">
+                        </p>
+                    </div>
+                </div>
+
+                <div class="reason-box" id="cloudResultBox"
+                    style="background: #eff6ff; border-left: 4px solid #3b82f6; margin-top:15px; padding:15px;">
+                    <span style="font-weight: 700; display: block; margin-bottom: 5px; color: #1e40af;">Spectrogram
+                        Insights:</span>
+                    <span id="cloudText" style="font-size: 0.9rem; line-height: 1.4;">Analyzing frequency
+                        distribution...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const aInput = document.getElementById('audioFileInput');
+    const aPreview = document.getElementById('audioPreview');
+    const pContainer = document.getElementById('previewContainer');
+    const uText = document.getElementById('uploadText');
+    const aName = document.getElementById('audioName');
+
+    if (aInput && aPreview) {
+        aInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                aPreview.src = url;
+                aName.innerText = file.name;
+                pContainer.classList.remove('hidden');
+                uText.classList.add('hidden');
+            }
+        }
+    }
+
+    function uploadAndScanAudio() {
+        const file = aInput.files[0];
+        if (!file) { alert("Please select an audio file."); return; }
+
+        const btn = document.getElementById('audBtn');
+        const loader = document.getElementById('loader');
+
+        btn.classList.add('hidden');
+        loader.classList.remove('hidden');
+        document.getElementById('resultContent').classList.add('hidden');
+        document.getElementById('placeholderText').classList.add('hidden');
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        fetch('/predict-audio', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                btn.classList.remove('hidden');
+                loader.classList.add('hidden');
+                updateUI(data);
+                document.getElementById('resultPanel').style.opacity = "1.0";
+            })
+            .catch(err => {
+                console.error(err);
+                btn.classList.remove('hidden');
+                loader.classList.add('hidden');
+                alert("Analysis failed.");
+            });
+    }
+</script>
+{% endblock %}

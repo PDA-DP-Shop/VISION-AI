@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="analysis-details" style="min-height: 80vh;">
+    <div class="section-header aos-init" data-aos="fade-down">
+        <h2>Spam & AI Text Lab</h2>
+        <p>Advanced linguistic forensics to identify AI-generated emails, messages, and phishing attempts.</p>
+    </div>
+
+    <div class="lab-wrapper">
+        <!-- Input Panel -->
+        <div class="panel glass-panel aos-init" data-aos="fade-right">
+            <h3>Verify Message Content</h3>
+            <span class="badge" style="background:#fef3c7; color:#92400e; margin-bottom: 20px;">Linguistic Forensic Mode
+                Active</span>
+
+            <form onsubmit="event.preventDefault();">
+                <div style="margin-bottom: 20px;">
+                    <textarea id="textContent"
+                        placeholder="Type or paste your email, text message, or suspicious content here..."
+                        style="width: 92%; height: 250px; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; font-family: inherit; font-size: 0.95rem; resize: none; background: #f8fafc; color: #1e293b; transition: all 0.3s;"
+                        oninput="updateCharCount()"></textarea>
+
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 5px;">
+                        <p style="font-size: 0.72rem; color: #64748b; font-style: italic; max-width: 70%;">
+                            <span style="color: var(--primary); font-weight: 600;">💡 Tip:</span> For emails with
+                            buttons, just copy/paste the whole text (including button labels) to analyze the full
+                            context.
+                        </p>
+                        <p id="charCount" style="font-size: 0.75rem; color: #64748b;">0 characters (Min 10 recommended)
+                        </p>
+                    </div>
+                </div>
+
+                <button type="button" id="textBtn" class="btn-main" style="width:100%; border:none;"
+                    onclick="scanTextContent()">SCAN FOR AI & SPAM</button>
+
+                <div id="loader" class="spinner hidden" style="margin-top:20px;"></div>
+
+                <div class="method-grid" style="grid-template-columns: 1fr; gap: 10px; margin-top: 20px;">
+                    <p style="font-size: 0.8rem; color: #64748b; text-align: center;">Vetting for robotic language
+                        patterns, fraudulent urgency, and phishing risk.</p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="panel glass-panel aos-init" data-aos="fade-left" id="resultPanel" style="opacity: 0.9;">
+            <h3>Linguistic Analysis Report</h3>
+
+            <div id="placeholderText" style="text-align: center; padding: 40px; color: var(--text-light);">
+                <p>Paste a message to verify its authenticity...</p>
+            </div>
+
+            <div id="resultContent" class="hidden">
+                <div class="prediction-result">
+                    <span id="predictionBadge" class="prediction-badge">-</span>
+                    <p id="predictionText" style="margin-top: 10px; font-weight: 600;"></p>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span id="scoreLabel">Authenticity Score</span>
+                        <span id="confNum">0%</span>
+                    </div>
+                    <div class="progress-bg">
+                        <div id="barFill" class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <div id="forensicReport" style="margin-top: 25px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+                    <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 15px;">Text Audit Checklist</h4>
+                    <div id="checklistGrid" style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+                        <!-- Items injected via JS -->
+                    </div>
+
+                    <div id="awarenessBox"
+                        style="margin-top:20px; padding: 15px; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px;">
+                        <span style="font-weight: 700; color: #92400e; display: block; margin-bottom: 5px;">🎓 Safety
+                            Tip:</span>
+                        <p id="awarenessText" style="font-size: 0.85rem; color: #78350f; line-height: 1.5;"></p>
+                    </div>
+                </div>
+
+                <div class="reason-box" id="cloudResultBox"
+                    style="background: #eff6ff; border-left: 4px solid #3b82f6; margin-top:15px; padding:15px;">
+                    <span style="font-weight: 700; display: block; margin-bottom: 5px; color: #1e40af;">Forensic
+                        Evidence:</span>
+                    <span id="reasonText" style="font-size: 0.9rem; line-height: 1.4;">Waiting for scan result...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function updateCharCount() {
+        const text = document.getElementById('textContent').value;
+        const count = text.length;
+        document.getElementById('charCount').innerText = `${count} characters (Min 10 recommended)`;
+    }
+
+    function scanTextContent() {
+        const text = document.getElementById('textContent').value;
+        if (text.trim().length < 10) {
+            alert("Please paste more than 10 characters for a reliable analysis.");
+            return;
+        }
+
+        const btn = document.getElementById('textBtn');
+        const loader = document.getElementById('loader');
+
+        btn.classList.add('hidden');
+        loader.classList.remove('hidden');
+        document.getElementById('resultContent').classList.add('hidden');
+        document.getElementById('placeholderText').classList.add('hidden');
+
+        fetch('/predict-text', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: text })
+        })
+            .then(res => res.json())
+            .then(data => {
+                btn.classList.remove('hidden');
+                loader.classList.add('hidden');
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    updateUI(data);
+                    document.getElementById('resultPanel').style.opacity = "1.0";
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                btn.classList.remove('hidden');
+                loader.classList.add('hidden');
+                alert("Analysis failed.");
+            });
+    }
+
+    // Initialize count on load
+    document.addEventListener('DOMContentLoaded', updateCharCount);
+    updateCharCount(); // Direct call for redundancy
+</script>
+{% endblock %}

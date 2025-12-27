@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentry AI | Enterprise Media Forensics</title>
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div
+        style="background: #1e293b; color: #94a3b8; padding: 8px; text-align: center; font-size: 0.85rem; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <span style="color: #fbbf24; margin-right: 8px;">⚠️</span>
+        <strong>Notice:</strong> This is a research project. AI forensic results may not be 100% accurate.
+    </div>
+    <nav class="navbar animate-fade-down">
+        <div class="nav-container">
+            <a href="/" style="text-decoration: none; color: inherit;">
+                <div class="logo">VISION<span>AI</span></div>
+            </a>
+
+            <div class="hamburger" id="hamburger-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/detect">Deepfake Lab</a></li>
+                <li><a href="/video">Video/Reel Lab</a></li>
+                <li><a href="/audio">Audio Lab</a></li>
+                <li><a href="/text">Text Lab</a></li>
+                <li><a href="/about" class="mobile-cta">About Us</a></li>
+            </ul>
+            <a href="/about" class="nav-btn desktop-only">About Us</a>
+        </div>
+    </nav>
+
+    <script>
+        const hamburger = document.getElementById('hamburger-btn');
+        const navLinks = document.getElementById('nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    </script>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animations
+        AOS.init({
+            duration: 1000,
+            once: true,
+            easing: 'ease-in-out'
+        });
+    </script>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

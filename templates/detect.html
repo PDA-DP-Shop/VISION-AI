@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="analysis-details" style="min-height: 80vh;">
+    <div class="section-header aos-init" data-aos="fade-down">
+        <h2>Deepfake Detection Lab</h2>
+        <p>Upload an image to analyze digital footprints, frequency artifacts, and metadata.</p>
+    </div>
+
+    <div class="lab-wrapper">
+        <!-- Input Panel -->
+        <div class="panel glass-panel aos-init" data-aos="fade-right">
+            <h3>Upload Image</h3>
+            <span class="badge" style="background:#e0f2fe; color:#0284c7; margin-bottom: 20px;">Upload only : JPEG, PNG, GIF</span>
+            <form id="uploadForm" onsubmit="event.preventDefault();">
+                <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                    <input type="file" name="file" id="fileInput" accept="image/*" class="hidden">
+                    <div id="previewContainer" class="hidden"
+                        style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <img id="imagePreview"
+                            style="max-height: 100%; max-width: 100%; border-radius: 8px; object-fit: contain;">
+                    </div>
+                    <div id="uploadText">
+                        <span style="font-size: 2rem;">📷</span>
+                        <p id="fileName">Drag & Drop or Click to Upload</p>
+                    </div>
+                </div>
+                <button type="button" class="btn-main" id="runBtn" style="width: 100%; margin-top:20px; border:none;"
+                    onclick="performAnalysis('/predict', 'runBtn')">Run Analysis</button>
+                <div id="loader" class="spinner hidden"></div>
+            </form>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="panel glass-panel aos-init" data-aos="fade-left" id="resultPanel" style="opacity: 0.9;">
+            <h3>Analysis Report</h3>
+
+            <div id="placeholderText" style="text-align: center; padding: 40px; color: var(--text-light);">
+                <p>Waiting for input...</p>
+            </div>
+
+            <div id="resultContent" class="hidden">
+                <!-- Batch Progress -->
+                <div id="batchProgress" class="hidden" style="margin-bottom: 20px;">
+                    <p style="font-weight: bold; margin-bottom: 5px;">Analyzing Batch...</p>
+                    <div style="background: #e2e8f0; border-radius: 20px; width: 100%; height: 10px; overflow: hidden;">
+                        <div id="batchBar"
+                            style="width: 0%; height: 100%; background: #2563eb; transition: width 0.3s;"></div>
+                    </div>
+                    <p id="batchStatus" style="font-size: 0.9rem; color: #64748b; margin-top: 5px;">0/0 Processed</p>
+                </div>
+
+                <div class="prediction-result">
+                    <span id="predictionBadge" class="prediction-badge">-</span>
+                    <p id="predictionText" style="margin-top: 10px; font-weight: 600;"></p>
+                </div>
+
+                <!-- Confidence Bar -->
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Confidence Score</span>
+                        <span id="confNum">0%</span>
+                    </div>
+                    <div class="progress-bg">
+                        <div id="barFill" class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Forensic Data -->
+                <div class="method-grid" style="grid-template-columns: 1fr 1fr; margin-top: 20px;">
+                    <div class="method-card" style="padding: 15px;">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: #64748b;">SOURCE</span>
+                        <div id="metaSoft">-</div>
+                    </div>
+                    <div class="method-card" style="padding: 15px;">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: #64748b;">DEVICE</span>
+                        <div id="metaDev">-</div>
+                    </div>
+                </div>
+
+                <div class="reason-box">
+                    <span style="font-weight: 700; display: block; margin-bottom: 5px;">Analysis Reason:</span>
+                    <span id="reasonText">...</span>
+                </div>
+
+                <!-- NEW: Detailed Forensic Scorecard -->
+                <div id="forensicBreakdown"
+                    style="margin-top: 20px; text-align: left; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <h4 style="margin-bottom: 10px; color: #334155; font-size: 0.95rem;">Detailed Forensic Scan:</h4>
+                    <ul id="scoreList" style="list-style: none; padding: 0; font-size: 0.9rem; color: #475569;">
+                        <!-- Items injected by JS -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Educational Section -->
+<section class="tips-section" style="padding: 4rem 2rem; background: var(--bg-secondary);">
+    <div class="section-header" data-aos="fade-up">
+        <h2>How to Spot Fake Images</h2>
+        <p>Expert heuristics to analyze images manually.</p>
+    </div>
+
+    <div class="features-grid" style="margin-top: 3rem;">
+        <!-- Tip 1 -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+            <div class="icon-box">✋</div>
+            <h3>Hands & Fingers</h3>
+            <p><strong>Real:</strong> 5 fingers, natural joints.<br><strong>AI:</strong> Extra fingers, merged digits,
+                twisted shapes.</p>
+        </div>
+
+        <!-- Tip 2 -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon-box">📝</div>
+            <h3>Text & Letters</h3>
+            <p><strong>Real:</strong> Readable and meaningful.<br><strong>AI:</strong> Random hieroglyphs, broken words,
+                fake symbols.</p>
+        </div>
+
+        <!-- Tip 3 -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon-box">👁️</div>
+            <h3>Face & Eyes</h3>
+            <p><strong>Real:</strong> Natural skin texture, consistent pupils.<br><strong>AI:</strong> Asymmetrical
+                eyes, blurry teeth, overly smooth skin.</p>
+        </div>
+
+        <!-- Tip 4 -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="icon-box">🏞️</div>
+            <h3>Background Logic</h3>
+            <p><strong>Real:</strong> Objects obey physics.<br><strong>AI:</strong> Random shapes, melted objects,
+                repeated patterns.</p>
+        </div>
+
+        <!-- Tip 5 -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="icon-box">💡</div>
+            <h3>Lighting & Shadows</h3>
+            <p><strong>Real:</strong> Consistent light source.<br><strong>AI:</strong> Shadows in wrong directions,
+                unrealistic glow.</p>
+        </div>
+
+        <!-- Tip 6 -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+            <div class="icon-box">✨</div>
+            <h3>Image Feel</h3>
+            <p><strong>Real:</strong> Slight natural noise, imperfections.<br><strong>AI:</strong> "Too perfect",
+                plastic smoothness, artificial gloss.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+.DS_Store
+
+# Flask
+instance/
+.webassets-cache
+
+# Uploads
+static/uploads/
+uploads/
+video/
+*.log
+
+# Models (Too large for GitHub)
+model/*.h5
+model/*.onnx
+*.h5
+*.onnx
+
+# IDE
+.vscode/
+.idea/

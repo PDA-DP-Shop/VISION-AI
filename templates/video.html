@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="analysis-details" style="min-height: 80vh;">
+    <div class="section-header aos-init" data-aos="fade-down">
+        <h2>Accurate Reel & Short Discovery</h2>
+        <p>Advanced AI detection for Reels, Shorts, and AI-generated videos (MP4, AVI, MOV).</p>
+    </div>
+
+    <div class="lab-wrapper">
+        <!-- Input Panel -->
+        <div class="panel glass-panel aos-init" data-aos="fade-right">
+            <h3>Upload Video</h3>
+            <span class="badge" style="background:#e0f2fe; color:#0284c7; margin-bottom: 20px;">Max Size: 50MB (Short
+                Clips)</span>
+
+            <form onsubmit="event.preventDefault();">
+                <div class="drop-zone" id="dropZone" onclick="document.getElementById('videoFileInput').click()">
+                    <input type="file" id="videoFileInput" name="file" accept="video/mp4,video/x-m4v,video/*"
+                        class="hidden">
+                    <div id="previewContainer" class="hidden"
+                        style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+                        <video id="videoPreview" controls playsinline muted
+                            style="max-height: 100%; max-width: 100%; border-radius: 8px;"></video>
+                    </div>
+                    <div id="uploadText">
+                        <span style="font-size: 2rem;">🎬</span>
+                        <p id="fileName">Select Video File</p>
+                    </div>
+                </div>
+
+                <button type="button" id="vidBtn" class="btn-main" style="width:100%; margin-top:20px; border:none;"
+                    onclick="uploadAndScan()">Scan Frames</button>
+
+                <!-- Upload Progress -->
+                <div id="uploadProgressContainer" class="progress-container hidden" style="margin-top: 20px;">
+                    <div class="progress-label">
+                        <span id="progressText">Uploading: 0%</span>
+                    </div>
+                    <div class="progress-bg">
+                        <div id="uploadBar" class="progress-fill" style="width: 0%; background: var(--primary);"></div>
+                    </div>
+                </div>
+
+                <div id="loader" class="spinner hidden"></div>
+
+                <div class="method-grid" style="grid-template-columns: 1fr; gap: 10px; margin-top: 20px;">
+                    <p style="font-size: 0.8rem; color: #64748b; text-align: center;">System will sample distinct
+                        keyframes for analysis.</p>
+                    <p id="fileLabel"
+                        style="font-size: 0.9rem; font-weight: 600; text-align: center; color: var(--primary);">
+                    </p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="panel glass-panel aos-init" data-aos="fade-left" id="resultPanel" style="opacity: 0.9;">
+            <h3>Security Report</h3>
+
+            <div id="placeholderText" style="text-align: center; padding: 40px; color: var(--text-light);">
+                <p>Waiting for video stream...</p>
+            </div>
+
+            <div id="resultContent" class="hidden">
+                <div class="prediction-result">
+                    <span id="predictionBadge" class="prediction-badge">-</span>
+                    <p id="predictionText" style="margin-top: 10px; font-weight: 600;"></p>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span id="scoreLabel">Confidence Score</span>
+                        <span id="confNum">0%</span>
+                    </div>
+                    <div class="progress-bg">
+                        <div id="barFill" class="progress-fill"></div>
+                    </div>
+                </div>
+                <div class="method-card" style="margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: #64748b;">CLOUD SUPERBRAIN</span>
+                        <span id="vettingBadge"
+                            style="font-size: 0.7rem; background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 99px; font-weight: 600;">Elite
+                            Audit Active</span>
+                    </div>
+                </div>
+
+                <div id="forensicReport" class="hidden"
+                    style="margin-top: 25px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+                    <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 15px;">Detailed Forensic
+                        Checklist</h4>
+                    <div id="checklistGrid" style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+                        <!-- Items injected via JS -->
+                    </div>
+
+                    <div id="awarenessBox"
+                        style="margin-top:20px; padding: 15px; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px;">
+                        <span style="font-weight: 700; color: #92400e; display: block; margin-bottom: 5px;">🎓 Academic
+                            & Public Awareness Note:</span>
+                        <p id="awarenessText" style="font-size: 0.85rem; color: #78350f; line-height: 1.5;"></p>
+                        <p id="compressionWarning"
+                            style="font-size: 0.75rem; font-style: italic; color: #b45309; margin-top: 8px;"></p>
+                    </div>
+
+                    <!-- Transcript & Translation Layer -->
+                    <div id="transcriptBox" class="hidden"
+                        style="margin-top:20px; padding: 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <span style="font-weight: 700; color: #334155; display: block; margin-bottom: 5px;">📜
+                            Transcript & Translation:</span>
+                        <p id="transcriptText"
+                            style="font-size: 0.85rem; color: #475569; line-height: 1.5; font-style: italic;"></p>
+                        <p id="translationText"
+                            style="font-size: 0.85rem; color: #0f172a; line-height: 1.5; margin-top: 10px; font-weight: 500;">
+                        </p>
+                    </div>
+                </div>
+
+                <div class="reason-box" id="cloudResultBox"
+                    style="background: #eff6ff; border-left: 4px solid #3b82f6; margin-top:15px; display:none;">
+                    <span style="font-weight: 700; display: block; margin-bottom: 5px; color: #1e40af;">Cloud Forensic
+                        Insights:</span>
+                    <span id="cloudText" style="font-size: 0.9rem; line-height: 1.4;">...</span>
+                </div>
+
+                <div class="method-card" style="margin-top:20px; padding: 15px;">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #64748b;">SYSTEM CORE LOG</span>
+                    <div style="margin-top:10px; overflow:hidden; border-radius:8px;">
+                        <p id="localReason" style="font-size: 0.8rem; color: #475569;">Ready for deep scan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Custom Video Preview & Upload Script -->
+<script>
+    const vInput = document.getElementById('videoFileInput');
+    const vPreview = document.getElementById('videoPreview');
+    const pContainer = document.getElementById('previewContainer');
+    const uText = document.getElementById('uploadText');
+    const fLabel = document.getElementById('fileLabel');
+
+    if (vInput && vPreview) {
+        vInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                vPreview.src = url;
+                vPreview.load();
+
+                // Seek to 0.5s to show a frame (avoids black screen)
+                vPreview.onloadeddata = () => {
+                    vPreview.currentTime = 0.5;
+                };
+
+                pContainer.classList.remove('hidden');
+                uText.classList.add('hidden');
+                fLabel.innerText = "✅ Video Selected: " + file.name;
+            }
+        }
+    }
+
+    function uploadAndScan() {
+        const file = vInput.files[0];
+        if (!file) { alert("Please select a video file first."); return; }
+
+        // UI Reset
+        const btn = document.getElementById('vidBtn');
+        const progContainer = document.getElementById('uploadProgressContainer');
+        const progBar = document.getElementById('uploadBar');
+        const progText = document.getElementById('progressText');
+
+        btn.classList.add('hidden');
+        progContainer.classList.remove('hidden');
+        document.getElementById('resultContent').classList.add('hidden');
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/predict-video', true);
+
+        // Upload Progress
+        xhr.upload.onprogress = function (e) {
+            if (e.lengthComputable) {
+                const percent = (e.loaded / e.total) * 100;
+                progBar.style.width = percent + '%';
+                progText.innerText = `Uploading: ${Math.round(percent)}%`;
+                if (percent >= 100) {
+                    progText.innerText = "✅ Upload Successful! Processing Frames...";
+                    document.getElementById('loader').classList.remove('hidden');
+                }
+            }
+        };
+
+        xhr.onload = function () {
+            btn.classList.remove('hidden');
+            progContainer.classList.add('hidden');
+            document.getElementById('loader').classList.add('hidden');
+
+            if (xhr.status === 200) {
+                const data = JSON.parse(xhr.responseText);
+                // Call the shared updateUI function from script.js
+                // Note: We need to adapt the data structure slightly if needed, 
+                // but our app.py returns compatible keys (prediction, confidence, reason).
+                updateUI(data);
+                document.getElementById('placeholderText').classList.add('hidden');
+                document.getElementById('resultPanel').style.opacity = "1.0";
+            } else {
+                alert("Error: " + xhr.statusText);
+            }
+        };
+
+        xhr.onerror = function () {
+            btn.classList.remove('hidden');
+            progContainer.classList.add('hidden');
+            document.getElementById('loader').classList.add('hidden');
+            alert("Upload failed. Check connection.");
+        };
+
+        xhr.send(formData);
+    }
+</script>
+{% endblock %}

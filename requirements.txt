@@ -1,0 +1,10 @@
+flask
+flask-cors
+opencv-python
+numpy
+tensorflow
+pillow
+pyzbar
+gunicorn
+requests
+python-dotenv

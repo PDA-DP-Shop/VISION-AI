@@ -1,0 +1,21 @@
+step -1 : python3 app.py
+step -2 : ngrok http 5001
+step -3 : copy the url and send it to friend
+
+   
+   
+   elif response.status_code == 429:
+    print(f"DEBUG: Model {model_name} Rate Limited (429). Switching...")
+    xxx                print(f"DEBUG: Model {model_name} Rate Limited (429).")
+    xxx                if "free-models-per-day" in response.text:
+    xxx                    return {"error": "OpenRouter Free tier limit reached. Please add $1 to your account or try again tomorrow."}
+                elif response.status_code == 402:
+                    print(f"DEBUG: Model {model_name} Error 402: Payment Required / Insufficient Credits.")
+    xxx            elif response.status_code == 401:
+    xxx                print(f"DEBUG: API Key Invalid (401).")
+    xxx                return {"error": "Invalid OpenRouter API Key."}
+                elif response.status_code == 404:
+                    print(f"DEBUG: Model {model_name} Error 404: Not Found or Unavailable.")
+                else:
+                print(f"DEBUG: Model {model_name} HTTP {response.status_code} Error.")
+    xxx                print(f"DEBUG: Model {model_name} HTTP {response.status_code} Error: {response.text[:100]}")
