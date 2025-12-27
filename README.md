@@ -1,78 +1,106 @@
-# Sentry AI - Deepfake Detection & Forensic Analysis 🛡️
+# VISION AI - Deepfake Detection & Forensic Analysis 🛡️
 
-**Sentry AI** represents the next generation of media forensics. It is a full-stack Enterprise Security platform designed to detect **AI-generated images**, **manipulated documents**, and **synthetic media** with high precision.
+**Imagine Cup 2026 Submission** | **Powered by Microsoft AI**
 
-![Sentry AI Hero](https://img.shields.io/badge/Status-Active-success) ![Python](https://img.shields.io/badge/Python-3.9+-blue.svg) ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange.svg) ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+![Status](https://img.shields.io/badge/Status-Active-success) 
+![Python](https://img.shields.io/badge/Python-3.9+-blue.svg) 
+![ONNX Runtime](https://img.shields.io/badge/Microsoft-ONNX%20Runtime-blue?logo=microsoft) 
+![Microsoft Phi-3](https://img.shields.io/badge/AI-Microsoft%20Phi--3-green?logo=microsoft)
 
-## 🚀 Key Features
-
-### 1. Hybrid Forensic Engine
-Unlike simple classifiers, Sentry AI combines **three distinct layers** of analysis:
-*   **Deep Learning (EfficientNetB0)**: Detects visual patterns and artifacts characteristic of GANs and Diffusion models (Midjourney, Stable Diffusion).
-*   **Frequency Analysis (FFT)**: Performs Fast Fourier Transform to analyze the spectral domain, detecting the "unnatural smoothness" or grid artifacts of AI generation.
-*   **Error Level Analysis (ELA)**: specific for documents, it detects compression inconsistencies that occur when an image has been digitally altered or spliced.
-
-### 2. Document Verification System
-A specialized module (`/predict-doc`) for verifying high-stakes documents (IDs, Certificates, Contracts):
-*   Distinguishes between **Original Camera**, **Scans**, and **Screen Captures**.
-*   Detects if text has been digitally modified using ELA.
-*   Verifies "Digital Purity" effectively distinguishing real e-documents from generated fakes.
-
-### 3. Enterprise-Grade UI
-*   Modern, responsive interface built with HTML5/CSS3 and Flask.
-*   Interactive heatmaps for visual verification.
-*   Real-time confidence scoring.
+## 💡 Elevator Pitch
+**VISION AI** is an advanced multi-modal forensic platform designed to restore trust in digital media. By combining **Computer Vision (Deep Learning)** with **Microsoft Phi-3 (Linguistic Analysis)** and optimizing inference with **Microsoft ONNX Runtime**, we detect AI-generated deepfakes, manipulated documents, and synthetic audio with enterprise-grade precision.
 
 ---
 
-## 🛠️ Installation & Local Setup
+## 🚀 Key Features
+
+### 1. 👁️ Visual Forensics (Deepfake Detection)
+*   **Hybrid Analysis**: Combines EfficientNet (Spatial) and FFT (Frequency) analysis to detect GAN/Diffusion artifacts.
+*   **Microsoft ONNX Runtime Integration**: 
+    *   Optimized inference engine for cross-platform compatibility.
+    *   Accelerated model performance using `Microsoft.ML.OnnxRuntime`.
+
+### 2. 📝 Text Forensics (Powered by Microsoft Phi-3)
+*   **Linguistic Audit**: Uses **Microsoft Phi-3** (via OpenRouter) to scan text metadata and content.
+*   **Pattern Recognition**: Detects "LLM-speak", distinct phrasing, and structural anomalies typical of AI-generated text.
+
+### 3. 📄 Document Verification
+*   **Error Level Analysis (ELA)**: Detects digital splicing and compression inconsistencies in ID cards and contracts.
+*   **Metadata Forensics**: Extracts EXIF data to identify editing software (Photoshop, GIMP) vs. original camera timestamps.
+
+### 4. 🔊 Audio Spectrum Analysis
+*   **Forensic Spectrograms**: Visualizes high-frequency cutoffs typical of synthetic voice cloning (ElevenLabs, etc.).
+*   **Noise Floor Detection**: Identifies unnatural silence and lack of background thermal noise.
+
+---
+
+## 🛠️ Microsoft Technology Integration
+
+This project proudly leverages the Microsoft ecosystem to solve the global challenge of misinformation:
+
+| Technology | Usage in VISION AI |
+| :--- | :--- |
+| **Microsoft ONNX Runtime** | We convert our robust Keras models to `.onnx` format using `tf2onnx` and run heavily optimized inference. This ensures our solution can run on Edge devices and low-power hardware. |
+| **Microsoft Phi-3** | We utilize the **Microsoft Phi-3-Mini-128k-Instruct** model (via API) to perform lightweight, highly intelligent reasoning on metadata and textual content to flag AI generation. |
+| **GitHub** | The entire codebase is version-controlled and hosted on Microsoft GitHub for open-source collaboration. |
+
+---
+
+## 💻 Tech Stack
+
+*   **Core**: Python 3.9+
+*   **Web Framework**: Flask (production-ready)
+*   **AI & ML**: TensorFlow, **ONNX Runtime**, OpenCV, NumPy
+*   **LLM Integration**: **Microsoft Phi-3** (via OpenRouter API)
+*   **Frontend**: HTML5, CSS3, JavaScript (Responsive Dashboard)
+
+---
+
+## ⚙️ Installation & Local Setup
 
 ### Prerequisites
 *   Python 3.9+
 *   Git
 
-### Steps
-1.  **Clone the Repository**
+### 1. Clone the Repository
+```bash
+git clone https://github.com/PDA-DP-Shop/VISION-AI.git
+cd VISION-AI
+```
+
+### 2. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Setup Models (Important)
+Due to GitHub size limits, the large model files are excluded.
+*   **Option A (Recommended)**: Download the pre-trained `xception_deepfake.h5` model and place it in the `model/` directory.
+*   **Option B (Optimize)**: Run the ONNX conversion script to generate the optimized model:
     ```bash
-    git clone https://github.com/yourusername/sentry-ai.git
-    cd sentry-ai
+    python convert_to_onnx.py
     ```
 
-2.  **Install Dependencies**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3.  **Run the Application**
-    ```bash
-    python app.py
-    ```
-    The app will start at `http://127.0.0.1:5001`.
+### 4. Run the Application
+```bash
+python app.py
+```
+*   Access the dashboard at: `http://localhost:5001`
 
 ---
 
-## ☁️ Deployment (Hugging Face Spaces)
-
-This project is optimized for deployment on **Hugging Face Spaces** using Docker.
-
-### How to Deploy
-1.  Create a new Space on [Hugging Face](https://huggingface.co/spaces).
-2.  Select **Docker** as the SDK.
-3.  Upload the contents of this repository.
-    *   *Note*: Ensure `sentry_forensic_v3.h5` is uploaded (use Git LFS if pushing via command line).
-4.  The `Dockerfile` will automatically install system dependencies (OpenCV/GL libraries) and start the Gunicorn server.
+## 📸 Usage Guide
+1.  **Navigate to "Scan"**: Upload an image, video, or document.
+2.  **View Results**:
+    *   **Fake %**: Probability of AI generation.
+    *   **Heatmaps**: Visual indicators of manipulated regions (ELA).
+    *   **Metadata Report**: detailed breakdown of the file source.
+3.  **Video Analysis**: Upload a video to scan it frame-by-frame for temporal inconsistencies.
 
 ---
 
-## 🧠 Technical Stack
-
-*   **Backend**: Flask (Python)
-*   **ML Engine**: TensorFlow, Keras (EfficientNet)
-*   **Image Processing**: OpenCV, Pillow (PIL)
-*   **Frontend**: HTML5, CSS3, JavaScript (AOS Animation Library)
-*   **Server**: Gunicorn (Production), Werkzeug (Dev)
+## 📜 License
+This project is licensed under the Apache 2.0 License.
 
 ---
-
-## ⚠️ Disclaimer
-This tool is intended for forensic research and security verification. While highly accurate, no detection method is 100% foolproof against all current future generative models. Always use multiple verification methods for critical decisions.
+*Built for Microsoft Imagine Cup 2026*
