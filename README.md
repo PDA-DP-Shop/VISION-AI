@@ -1,5 +1,3 @@
-# 👁️ VISION-AI
-
 <div align="center">
 
 # 👁️ VISION-AI
