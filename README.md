@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="./images/logo.png" width="200"/>
+<img src="https://raw.githubusercontent.com/PDA-DP-Shop/VISION-AI/main/images/logo.png" width="200"/>
 
 # 🤖 VISION-AI
 ### Advanced AI Detection & Verification Platform
