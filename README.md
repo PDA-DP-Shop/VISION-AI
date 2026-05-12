@@ -2,12 +2,10 @@
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/PDA-DP-Shop/VISION-AI/main/images/logo.png" width="200"/>
-
-# 🤖 VISION-AI
+# 👁️ VISION-AI
 ### Advanced AI Detection & Verification Platform
 
-AI-powered platform for detecting fake images, AI-generated videos, spam messages, manipulated content, and identifying real vs fake digital media using modern intelligent systems.
+AI-powered platform for detecting fake images, AI-generated videos, spam messages, and manipulated digital content.
 
 💻 Source Code Available on GitHub  
 🔗 https://github.com/PDA-DP-Shop/VISION-AI
