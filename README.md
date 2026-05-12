@@ -1,106 +1,177 @@
-# VISION AI - Deepfake Detection & Forensic Analysis 🛡️
+# 👁️ VISION-AI
 
-**Imagine Cup 2026 Submission** | **Powered by Microsoft AI**
+<div align="center">
 
-![Status](https://img.shields.io/badge/Status-Active-success) 
-![Python](https://img.shields.io/badge/Python-3.9+-blue.svg) 
-![ONNX Runtime](https://img.shields.io/badge/Microsoft-ONNX%20Runtime-blue?logo=microsoft) 
-![Microsoft Phi-3](https://img.shields.io/badge/AI-Microsoft%20Phi--3-green?logo=microsoft)
+<img src="./images/logo.png" width="200"/>
 
-## 💡 Elevator Pitch
-**VISION AI** is an advanced multi-modal forensic platform designed to restore trust in digital media. By combining **Computer Vision (Deep Learning)** with **Microsoft Phi-3 (Linguistic Analysis)** and optimizing inference with **Microsoft ONNX Runtime**, we detect AI-generated deepfakes, manipulated documents, and synthetic audio with enterprise-grade precision.
+# 🤖 VISION-AI
+### Advanced AI Detection & Verification Platform
 
----
+AI-powered platform for detecting fake images, AI-generated videos, spam messages, manipulated content, and identifying real vs fake digital media using modern intelligent systems.
 
-## 🚀 Key Features
+💻 Source Code Available on GitHub  
+🔗 https://github.com/PDA-DP-Shop/VISION-AI
 
-### 1. 👁️ Visual Forensics (Deepfake Detection)
-*   **Hybrid Analysis**: Combines EfficientNet (Spatial) and FFT (Frequency) analysis to detect GAN/Diffusion artifacts.
-*   **Microsoft ONNX Runtime Integration**: 
-    *   Optimized inference engine for cross-platform compatibility.
-    *   Accelerated model performance using `Microsoft.ML.OnnxRuntime`.
-
-### 2. 📝 Text Forensics (Powered by Microsoft Phi-3)
-*   **Linguistic Audit**: Uses **Microsoft Phi-3** (via OpenRouter) to scan text metadata and content.
-*   **Pattern Recognition**: Detects "LLM-speak", distinct phrasing, and structural anomalies typical of AI-generated text.
-
-### 3. 📄 Document Verification
-*   **Error Level Analysis (ELA)**: Detects digital splicing and compression inconsistencies in ID cards and contracts.
-*   **Metadata Forensics**: Extracts EXIF data to identify editing software (Photoshop, GIMP) vs. original camera timestamps.
-
-### 4. 🔊 Audio Spectrum Analysis
-*   **Forensic Spectrograms**: Visualizes high-frequency cutoffs typical of synthetic voice cloning (ElevenLabs, etc.).
-*   **Noise Floor Detection**: Identifies unnatural silence and lack of background thermal noise.
+</div>
 
 ---
 
-## 🛠️ Microsoft Technology Integration
+# 📌 Project Overview
 
-This project proudly leverages the Microsoft ecosystem to solve the global challenge of misinformation:
+VISION-AI is a futuristic AI-powered detection platform designed to identify manipulated digital content and improve online trust and security. The platform focuses on detecting AI-generated media, fake images, deepfake videos, spam messages, and misleading digital content using intelligent verification systems and modern web technologies.
 
-| Technology | Usage in VISION AI |
-| :--- | :--- |
-| **Microsoft ONNX Runtime** | We convert our robust Keras models to `.onnx` format using `tf2onnx` and run heavily optimized inference. This ensures our solution can run on Edge devices and low-power hardware. |
-| **Microsoft Phi-3** | We utilize the **Microsoft Phi-3-Mini-128k-Instruct** model (via API) to perform lightweight, highly intelligent reasoning on metadata and textual content to flag AI generation. |
-| **GitHub** | The entire codebase is version-controlled and hosted on Microsoft GitHub for open-source collaboration. |
+The project combines:
+- Modern AI-inspired UI/UX
+- Intelligent content analysis systems
+- Fake vs real media detection
+- Spam message analysis
+- Interactive animations
+- Responsive frontend architecture
+- Smart user experience design
 
----
-
-## 💻 Tech Stack
-
-*   **Core**: Python 3.9+
-*   **Web Framework**: Flask (production-ready)
-*   **AI & ML**: TensorFlow, **ONNX Runtime**, OpenCV, NumPy
-*   **LLM Integration**: **Microsoft Phi-3** (via OpenRouter API)
-*   **Frontend**: HTML5, CSS3, JavaScript (Responsive Dashboard)
+VISION-AI demonstrates advanced frontend development concepts while representing the future of AI-powered verification systems and digital trust platforms.
 
 ---
 
-## ⚙️ Installation & Local Setup
+# 🚀 Main Features
 
-### Prerequisites
-*   Python 3.9+
-*   Git
+# 🖼️ Fake vs Real Image Detection
+Analyze uploaded images and identify:
+- AI-generated images
+- Edited/manipulated photos
+- Deepfake visuals
+- Real vs fake media probability
 
-### 1. Clone the Repository
+### Detection Features
+✅ AI image analysis  
+✅ Real image verification  
+✅ Deepfake image detection  
+✅ Manipulation scanning  
+✅ Confidence score system  
+
+---
+
+# 🎥 AI Video Detection
+
+VISION-AI can analyze videos and detect:
+- AI-generated videos
+- Deepfake content
+- Face-swapped videos
+- Manipulated visual frames
+
+### Video Analysis
+✅ Deepfake detection  
+✅ AI-generated video scanning  
+✅ Face manipulation analysis  
+✅ Video authenticity verification  
+
+---
+
+# 💬 Spam Message Detection
+
+Analyze messages and classify:
+- Spam messages
+- Scam texts
+- Fraud attempts
+- Real human communication
+
+### Message Detection
+✅ Spam detection  
+✅ Scam identification  
+✅ AI-generated text detection  
+✅ Real vs fake message analysis  
+
+---
+
+# 🤖 AI Content Verification
+
+The platform can detect:
+- AI-generated content
+- Fake news patterns
+- Suspicious digital content
+- Machine-generated text
+
+### Smart Analysis
+✅ AI text verification  
+✅ Content authenticity analysis  
+✅ Digital trust scoring  
+✅ Intelligent classification systems  
+
+---
+
+# 🎨 Modern UI/UX Design
+
+VISION-AI provides a futuristic user experience using:
+- Modern AI-themed design
+- Interactive animations
+- Glassmorphism effects
+- Smooth transitions
+- Responsive layouts
+- Advanced UI interactions
+
+---
+
+# ⚡ Interactive Features
+
+- Scroll animations
+- Hover effects
+- Animated cards
+- Dynamic transitions
+- AI-style glowing UI
+- Responsive navigation
+- Interactive dashboards
+
+---
+
+# 📱 Fully Responsive
+
+Optimized for:
+- Mobile devices
+- Tablets
+- Laptops
+- Desktop screens
+
+---
+
+# 🛠️ Technologies Used
+
+| Technology | Purpose |
+|------------|---------|
+| HTML5 | Website Structure |
+| CSS3 | Styling & Animations |
+| JavaScript | Interactivity |
+| AI-Based Concepts | Detection Logic |
+| Responsive Design | Mobile Compatibility |
+| GitHub | Source Code Hosting |
+| Modern UI/UX | User Experience |
+
+---
+
+# 📂 Project Structure
+
 ```bash
-git clone https://github.com/PDA-DP-Shop/VISION-AI.git
-cd VISION-AI
-```
-
-### 2. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Setup Models (Important)
-Due to GitHub size limits, the large model files are excluded.
-*   **Option A (Recommended)**: Download the pre-trained `xception_deepfake.h5` model and place it in the `model/` directory.
-*   **Option B (Optimize)**: Run the ONNX conversion script to generate the optimized model:
-    ```bash
-    python convert_to_onnx.py
-    ```
-
-### 4. Run the Application
-```bash
-python app.py
-```
-*   Access the dashboard at: `http://localhost:5001`
-
----
-
-## 📸 Usage Guide
-1.  **Navigate to "Scan"**: Upload an image, video, or document.
-2.  **View Results**:
-    *   **Fake %**: Probability of AI generation.
-    *   **Heatmaps**: Visual indicators of manipulated regions (ELA).
-    *   **Metadata Report**: detailed breakdown of the file source.
-3.  **Video Analysis**: Upload a video to scan it frame-by-frame for temporal inconsistencies.
-
----
-
-## 📜 License
-This project is licensed under the Apache 2.0 License.
-
----
-*Built for Microsoft Imagine Cup 2026*
+VISION-AI/
+│
+├── index.html
+├── detect-image.html
+├── detect-video.html
+├── detect-message.html
+├── about.html
+│
+├── css/
+│   ├── style.css
+│   ├── responsive.css
+│   └── animation.css
+│
+├── js/
+│   ├── main.js
+│   ├── detection.js
+│   ├── animation.js
+│   └── ai-system.js
+│
+├── images/
+│   ├── logo.png
+│   ├── ai-banner.png
+│   └── assets/
+│
+└── README.md
